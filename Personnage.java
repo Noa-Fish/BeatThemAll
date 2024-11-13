@@ -20,15 +20,15 @@ public abstract class Personnage {
         public abstract void capaciteSpeciale();
     
         public void avance() {
-            coordonnee += 1;
+            this.coordonnee ++;
         }
     
         public void recul() {
-            coordonnee -= 1;
+            this.coordonnee --;
         }
     
         public int getPv() {
-            return pv;
+            return this.pv;
         }
     
         public void setPv(int pv) {

@@ -15,14 +15,6 @@ public class Personnage {
         this.distanceAttaque = distanceAttaque;
     }
 
-    public void avance() {
-        this.coordonnee ++;
-    }
-
-    public void recul() {
-        this.coordonnee --;
-    }
-
     public String getNom() {
         return nom;
     }

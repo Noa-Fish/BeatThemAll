@@ -1,3 +1,5 @@
+package com.beatthemall;
+
 public class OneShot implements AttaqueSpeciale {
     @Override
     public void executer(Personnage cible) {

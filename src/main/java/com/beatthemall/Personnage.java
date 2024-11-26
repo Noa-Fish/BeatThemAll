@@ -1,3 +1,5 @@
+package com.beatthemall;
+
 public class Personnage {
     private String nom;
     private int pv;
@@ -62,4 +64,17 @@ public class Personnage {
     public void setDistanceAttaque(int distanceAttaque) {
         this.distanceAttaque = distanceAttaque;
     }
+
+    @Override
+    public String toString() {
+        return "Personnage{" +
+                "nom='" + nom + '\'' +
+                ", pv=" + pv +
+                ", force=" + force +
+                ", defense=" + defense +
+                ", coordonnee=" + coordonnee +
+                ", distanceAttaque=" + distanceAttaque +
+                '}';
+    }
 }
+

@@ -1,3 +1,5 @@
+package com.beatthemall;
+
 public class Soin implements AttaqueSpeciale {
     @Override
     public void executer(Personnage cible) {

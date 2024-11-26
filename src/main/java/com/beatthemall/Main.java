@@ -2,8 +2,13 @@
 package com.beatthemall;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
+import com.beatthemall.Hero;
+import com.beatthemall.Carte;
+import com.beatthemall.Ennemi;
+import com.beatthemall.Matrix;
+import com.beatthemall.Soin;
+import com.beatthemall.OneShot;
 
 public class Main {
 

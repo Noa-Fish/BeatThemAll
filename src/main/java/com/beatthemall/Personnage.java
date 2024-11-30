@@ -65,6 +65,23 @@ public class Personnage {
         this.distanceAttaque = distanceAttaque;
     }
 
+    public void attaquer(Personnage cible) {
+        int distance = Math.abs(this.getCoordonnee() - cible.getCoordonnee());
+
+        if (distance <= this.getDistanceAttaque()) {
+            int degats = this.getForce() - cible.getDefense();
+
+            if (degats > 0) {
+                cible.setPv(cible.getPv() - degats);
+                System.out.println(this.getNom() + " attaque " + cible.getNom() + " et inflige " + degats + " points de dégâts.");
+            } else {
+                System.out.println(this.getNom() + " attaque " + cible.getNom() + ", mais la défense de " + cible.getNom() + " est trop élevée !");
+            }
+        } else {
+            System.out.println(this.getNom() + " ne peut pas attaquer " + cible.getNom() + " : la cible est hors de portée !");
+        }
+    }
+
     @Override
     public String toString() {
         return "Personnage{" +

@@ -3,109 +3,89 @@ package com.beatthemall;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import com.beatthemall.Hero;
-import com.beatthemall.Carte;
-import com.beatthemall.Ennemi;
-import com.beatthemall.Matrix;
-import com.beatthemall.Soin;
-import com.beatthemall.OneShot;
 
 public class Main {
 
-    public static void afficherTitre(){
-        System.out.println("  ____             _     _____ _                         _    _ _ \n" +
-                " | __ )  ___  __ _| |_  |_   _| |__   ___ _ __ ___      / \\  | | | \n" +
-                " |  _ \\ / _ \\/ _` | __|   | | | '_ \\ / _ \\ '_ ` _ \\    / _ \\ | | | \n" +
-                " | |_) |  __/ (_| | |_    | | | | | |  __/ | | | | |  / ___ \\| | | \n" +
-                " |____/ \\___|\\__,_|\\__|   |_| |_| |_|\\___|_| |_| |_| /_/   \\_\\_|_| \n");
+    public static void afficherTitre() {
+        System.out.println("  ____             _     _____ _                         _    _ _ \n" + " | __ )  ___  __ _| |_  |_   _| |__   ___ _ __ ___      / \\  | | | \n" + " |  _ \\ / _ \\/ _` | __|   | | | '_ \\ / _ \\ '_ ` _ \\    / _ \\ | | | \n" + " | |_) |  __/ (_| | |_    | | | | | |  __/ | | | | |  / ___ \\| | | \n" + " |____/ \\___|\\__,_|\\__|   |_| |_| |_|\\___|_| |_| |_| /_/   \\_\\_|_| \n");
     }
 
-    public static Hero choixHero(){
-        // Création d'une liste pour stocker des héros
-        ArrayList<Hero> heros = new ArrayList<Hero>();
+    // Méthode générique pour valider les choix de l'utilisateur
+    public static int validerChoix(int maxChoix, String message) {
+        Scanner scanner = new Scanner(System.in);
+        int choix;
+        while (true) {
+            System.out.print(message);
+            if (scanner.hasNextInt()) {
+                choix = scanner.nextInt();
+                if (choix >= 0 && choix < maxChoix) {
+                    return choix;
+                }
+            }
+            System.out.println("Erreur, veuillez entrer un choix valide.");
+            scanner.nextLine(); // Consomme l'entrée invalide
+        }
+    }
 
-        // Ajout de différents héros avec leurs attributs et attaques spéciales
-        heros.add(new Hero("hero0", 180, 1, 1, 0, 1, new Matrix()));
-        heros.add(new Hero("hero1", 180, 1, 1, 0, 1, new Soin()));
-        heros.add(new Hero("hero2", 180, 1, 1, 0, 1, new OneShot()));
+    // Créer une étape à partir de la liste de cases
+    public static ArrayList<Case> creerEtape(int taille, ArrayList<Case> cases) {
+        ArrayList<Case> etape = new ArrayList<>();
+        for (int i = 0; i < taille; i++) etape.add(new Case());
+        for (Case c : cases) {
+            if (c.getPersonnage() != null && c.getPersonnage().getPv() > 0) {
+                int position = c.getPersonnage().getCoordonnee();
+                if (position >= 0 && position < taille) {
+                    etape.set(position, c);
+                }
+            }
+        }
+        return etape;
+    }
 
-        // Création d'une liste pour enregistrer les index valides des héros
-        ArrayList<String> validIndexes = new ArrayList<>();
+    // Choix du héros
+    public static Hero choixHero() {
+        ArrayList<Hero> heros = new ArrayList<>();
+        heros.add(new Hero("hero0", 180, 2, 1, 0, 1, new Matrix()));
+        heros.add(new Hero("hero1", 180, 2, 1, 0, 1, new Soin()));
+        heros.add(new Hero("hero2", 180, 2, 1, 0, 1, new OneShot()));
 
         for (int i = 0; i < heros.size(); i++) {
-            validIndexes.add(String.valueOf(i)); // Ajoute l'index sous forme de chaîne de caractères
-            System.out.println(i + ".  " + heros.get(i)); // Affiche l'index et le héros correspondant
+            System.out.println(i + ". " + heros.get(i));
         }
-
-        // Préparation pour lire l'entrée utilisateur
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("Choose a Hero: ");
-
-        // Lecture de l'index du héros choisi par l'utilisateur
-        String heroIndex = myObj.nextLine();
-
-        // Vérification que l'entrée utilisateur correspond à un index valide
-        while (!validIndexes.contains(heroIndex)) {
-            System.out.println("Error, please choose a valid index: "); // Message d'erreur
-            heroIndex = myObj.nextLine(); // Demande de ressaisie
-        }
-
-        // Affiche le héros sélectionné par l'utilisateur
-        System.out.println("Chosen Hero: " + heros.get(Integer.parseInt(heroIndex)));
-        return heros.get(Integer.parseInt(heroIndex));
+        int choix = validerChoix(heros.size(), "Choisissez un héros : ");
+        System.out.println("Héros choisi : " + heros.get(choix));
+        return heros.get(choix);
     }
 
-    public static Carte choixCarte(Hero hero){
-        Ennemi ennemi1 = new Ennemi("ennemi1",180,1,1,5,1);
-        Ennemi ennemi2 = new Ennemi("ennemi2",180,1,1,9,1);
+    // Choix de la carte
+    public static Carte choixCarte(Hero hero) {
+        // Étape 1
+        ArrayList<Case> casesEtape1 = new ArrayList<>();
+        casesEtape1.add(new Case(hero));
+        casesEtape1.add(new Case(new Ennemi("ennemi1", 1, 1, 1, 5, 1)));
+        casesEtape1.add(new Case(new Ennemi("ennemi2", 1, 1, 1, 9, 1)));
 
-        Ennemi ennemi3 = new Ennemi("ennemi3",180,1,1,15,1);
-        Ennemi ennemi4 = new Ennemi("ennemi4",180,1,1,19,1);
+        // Étape 2
+        ArrayList<Case> casesEtape2 = new ArrayList<>();
+        casesEtape2.add(new Case(new Ennemi("ennemi3", 1, 1, 1, 5, 1)));
+        casesEtape2.add(new Case(new Ennemi("ennemi4", 1, 1, 1, 9, 1)));
 
-        Ennemi ennemi5 = new Ennemi("ennemi5",180,1,1,25,1);
-        Ennemi ennemi6 = new Ennemi("ennemi6",180,1,1,29,1);
+        // Étape 3
+        ArrayList<Case> casesEtape3 = new ArrayList<>();
+        casesEtape3.add(new Case(new Ennemi("ennemi5", 1, 1, 1, 5, 1)));
+        casesEtape3.add(new Case(new Ennemi("ennemi6", 1, 1, 1, 9, 1)));
 
-        // Liste de personnages
-        ArrayList<Case> cases = new ArrayList<Case>();
-        cases.add(new Case(hero));
-        cases.add(new Case(ennemi1));
-        cases.add(new Case(ennemi2));
-        cases.add(new Case(ennemi3));
-        cases.add(new Case(ennemi4));
-        cases.add(new Case(ennemi5));
-        cases.add(new Case(ennemi6));
+        // Étapes complètes
+        ArrayList<ArrayList<Case>> cases = new ArrayList<>();
+        cases.add(creerEtape(10, casesEtape1));
+        cases.add(creerEtape(10, casesEtape2));
+        cases.add(creerEtape(10, casesEtape3));
 
-        // Crée une carte
-        Carte carte = new Carte("Forêt", "Mission 1", 0, 30, 3, cases);
+        Carte carte = new Carte("Forêt", "Mission 1", cases.size(), cases);
 
-
-        ArrayList<Carte> cartes = new ArrayList<Carte>();
-        cartes.add(carte);
-
-        // Création d'une liste pour enregistrer les index valides des héros
-        ArrayList<String> validIndexes = new ArrayList<>();
-
-        for (int i = 0; i < cartes.size(); i++) {
-            validIndexes.add(String.valueOf(i)); // Ajoute l'index sous forme de chaîne de caractères
-            System.out.println(i + ".\n" + cartes.get(i)); // Affiche l'index et le héros correspondant
-        }
-
-        // Préparation pour lire l'entrée utilisateur
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("Choose a Carte: ");
-
-        // Lecture de l'index du héros choisi par l'utilisateur
-        String carteIndex = myObj.nextLine();
-
-        // Vérification que l'entrée utilisateur correspond à un index valide
-        while (!validIndexes.contains(carteIndex)) {
-            System.out.println("Error, please choose a valid index: "); // Message d'erreur
-            carteIndex = myObj.nextLine(); // Demande de ressaisie
-        }
-
-        // Affiche le héros sélectionné par l'utilisateur
-        System.out.println("Chosen Carte:\n" + cartes.get(Integer.parseInt(carteIndex)));
-        return cartes.get(Integer.parseInt(carteIndex));
+        System.out.println("0.\n" + carte);
+        validerChoix(1, "Choisissez une carte : ");
+        return carte;
     }
 
     public static void main(String[] args) {
@@ -113,15 +93,45 @@ public class Main {
         Hero hero = choixHero();
         Carte carte = choixCarte(hero);
 
-        System.out.println("COORDONNEE : "+hero.getCoordonnee());
-        System.out.println(carte.afficherEtape(0));
+        int etape = 0;
+        while (etape < carte.getCases().size()) {
+            ArrayList<Case> casesEtape = carte.getCases().get(etape);
+            System.out.println(carte.afficherEtape(casesEtape));
 
-        hero.avance();
+            System.out.println("Choisissez une action :\n1. Avancer\n2. Reculer\n3. Attaquer");
+            int choix = validerChoix(4, "Action : ");
 
-        System.out.println(carte.afficherEtape(0));
+            switch (choix) {
+                case 1 -> {
+                    if (casesEtape.get(hero.getCoordonnee() + 1).getPersonnage() == null) {
+                        hero.avance();
+                        carte.getCases().set(etape, creerEtape(casesEtape.size(), casesEtape));
+                    } else System.out.println("Erreur : impossible d'avancer.");
+                }
+                case 2 -> {
+                    hero.recule();
+                    carte.getCases().set(etape, creerEtape(casesEtape.size(), casesEtape));
+                }
+                case 3 -> {
+                    System.out.println("Choisissez un ennemi à attaquer :");
+                    for (int i = 0; i < casesEtape.size(); i++) {
+                        if (casesEtape.get(i).getPersonnage() instanceof Ennemi) {
+                            System.out.println(i + ". " + casesEtape.get(i).getPersonnage());
+                        }
+                    }
+                    int cible = validerChoix(casesEtape.size(), "Ennemi : ");
+                    hero.attaquer(casesEtape.get(cible).getPersonnage());
+                }
+                default -> System.out.println("Choix invalide.");
+            }
 
-        hero.avance();
-
-        System.out.println(carte.afficherEtape(0));
+            if (carte.isAllEnnemiDeadByEtape(casesEtape)) {
+                etape++;
+                if (etape < carte.getCases().size()) {
+                    carte.getCases().get(etape).set(0, new Case(hero));
+                }
+            }
+        }
+        System.out.println("GAGNÉ !!!");
     }
 }

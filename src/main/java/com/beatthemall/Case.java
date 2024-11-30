@@ -22,4 +22,11 @@ public class Case {
     public boolean estVide() {
         return personnage == null;
     }
+
+    @Override
+    public String toString() {
+        return "Case{" +
+                "personnage=" + personnage +
+                '}';
+    }
 }

@@ -24,7 +24,10 @@ public class Hero extends Personnage {
         this.setCoordonnee(this.getCoordonnee() + 1);
     }
 
-    public void recul() {
-        this.setCoordonnee(this.getCoordonnee() - 1);
+    public void recule() {
+
+        if (this.getCoordonnee() - 1 >= 0){
+            this.setCoordonnee(this.getCoordonnee() - 1);
+        }
     }
 }

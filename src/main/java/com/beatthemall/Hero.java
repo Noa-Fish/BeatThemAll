@@ -1,5 +1,7 @@
 package com.beatthemall;
 
+import java.util.ArrayList;
+
 public class Hero extends Personnage {
     private boolean capaciteUtilisee = false;
     private AttaqueSpeciale attaqueSpeciale;
@@ -20,8 +22,10 @@ public class Hero extends Personnage {
         }
     }
 
-    public void avance() {
-        this.setCoordonnee(this.getCoordonnee() + 1);
+    public void avance(ArrayList<Case> casesEtape) {
+        if (casesEtape.get(this.getCoordonnee() + 1).getPersonnage() == null) {
+            this.setCoordonnee(this.getCoordonnee() + 1);
+        } else System.out.println("Erreur : impossible d'avancer.");
     }
 
     public void recule() {

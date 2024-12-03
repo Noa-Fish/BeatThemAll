@@ -12,9 +12,9 @@ public class Hero extends Personnage {
         this.attaqueSpeciale = attaqueSpeciale;
     }
 
-    public void utiliserCapaciteSpeciale(Personnage cible) {
+    public void utiliserCapaciteSpeciale(ArrayList<Case> cases) {
         if (!capaciteUtilisee) {
-            attaqueSpeciale.executer(cible);
+            attaqueSpeciale.executer(cases);
             capaciteUtilisee = true;
         }
         else{

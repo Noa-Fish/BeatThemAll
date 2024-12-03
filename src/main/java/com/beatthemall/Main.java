@@ -3,6 +3,7 @@ package com.beatthemall;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Random;
 
 public class Main {
 
@@ -92,6 +93,30 @@ public class Main {
         return carte;
     }
 
+    private static void attaquerEnnemi(Hero hero, ArrayList<Case> casesEtape) {
+        ArrayList<Integer> indicesEnnemis = new ArrayList<>();
+        System.out.println("Choisissez un ennemi à attaquer :");
+
+        // Récupérer et afficher les ennemis
+        for (int i = 0; i < casesEtape.size(); i++) {
+            if (casesEtape.get(i).getPersonnage() instanceof Ennemi) {
+                System.out.println(indicesEnnemis.size() + ". " + casesEtape.get(i).getPersonnage());
+                indicesEnnemis.add(i);
+            }
+        }
+
+        // Gérer le cas où il n'y a pas d'ennemis
+        if (indicesEnnemis.isEmpty()) {
+            System.out.println("Aucun ennemi à attaquer !");
+            return;
+        }
+
+        // Valider le choix et attaquer l'ennemi
+        int choix = validerChoix(indicesEnnemis.size(), "Ennemi : ");
+        int indexReel = indicesEnnemis.get(choix);
+        hero.attaquer(casesEtape.get(indexReel).getPersonnage());
+    }
+
     public static void main(String[] args) {
         afficherTitre();
         Hero hero = choixHero();
@@ -104,37 +129,30 @@ public class Main {
             carte.getCases().set(etape, creerEtape(casesEtape.size(), casesEtape));
             System.out.println(carte.afficherEtape(casesEtape));
 
-            System.out.println("Choisissez une action :\n1. Avancer\n2. Reculer\n3. Attaquer");
-            int choix = validerChoix(4, "Action : ");
+            System.out.println("Choisissez une action :\n1. Avancer\n2. Reculer\n3. Attaquer\n4. Attaque Spéciale");
+            int choix = validerChoix(5, "Action : ");
 
             switch (choix) {
-                case 1 -> {
-                    hero.avance(casesEtape);
-                }
-                case 2 -> {
-                    hero.recule();
-                }
+                case 1 -> hero.avance(casesEtape);
+                case 2 -> hero.recule();
                 case 3 -> {
-                    System.out.println("Choisissez un ennemi à attaquer :");
-                    ArrayList<Integer> indicesEnnemis = new ArrayList<>();
-                    for (int i = 0; i < casesEtape.size(); i++) {
-                        if (casesEtape.get(i).getPersonnage() instanceof Ennemi) {
-                            System.out.println(indicesEnnemis.size() + ". " + casesEtape.get(i).getPersonnage());
-                            indicesEnnemis.add(i);
-                        }
-                    }
-
-                    if (indicesEnnemis.isEmpty()) {
-                        System.out.println("Aucun ennemi à attaquer !");
-                    } else {
-                        int choix2 = validerChoix(indicesEnnemis.size(), "Ennemi : ");
-                        int indexReel = indicesEnnemis.get(choix2);
-                        hero.attaquer(casesEtape.get(indexReel).getPersonnage());
+                    Random random = new Random();
+                    int attaques = random.nextInt(5) + 1;
+                    System.out.println("Le héros attaque " + attaques + " fois !");
+                    for (int i = 0; i < attaques; i++) {
+                        attaquerEnnemi(hero, casesEtape);
                     }
                 }
+                case 4 -> hero.utiliserCapaciteSpeciale(casesEtape);
                 default -> System.out.println("Choix invalide.");
             }
 
+            // Phase d'attaque des ennemis
+            for (Case c : casesEtape) {
+                if (c.getPersonnage() instanceof Ennemi ennemi && ennemi.getPv() > 0) {
+                    ennemi.attaquer(hero);
+                }
+            }
             carte.getCases().set(etape, creerEtape(casesEtape.size(), casesEtape));
 
             if (carte.isAllEnnemiDeadByEtape(casesEtape)) {

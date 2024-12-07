@@ -65,6 +65,7 @@ public class Main {
 
     // Choix de la carte
     public static Carte choixCarte(Hero hero) {
+        //Création Carte 1
         // Étape 1
         ArrayList<Case> casesEtape1 = new ArrayList<>();
         casesEtape1.add(new Case(hero));
@@ -83,19 +84,12 @@ public class Main {
         casesEtape3.add(new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3)));
 
         // Étapes complètes
-        ArrayList<ArrayList<Case>> cases = new ArrayList<>();
-        cases.add(creerEtape(10, casesEtape1));
-        cases.add(creerEtape(10, casesEtape2));
-        cases.add(creerEtape(10, casesEtape3));
+        ArrayList<ArrayList<Case>> cases1 = new ArrayList<>();
+        cases1.add(creerEtape(10, casesEtape1));
+        cases1.add(creerEtape(10, casesEtape2));
+        cases1.add(creerEtape(10, casesEtape3));
 
-        Carte carte = new Carte("Forêt Enchantée", "Mission 1", cases.size(), cases);
-
-        System.out.println("0.\n" + carte);
-        validerChoix(1, "Choisissez une carte : ");
-        return carte;
-    }
-
-    public static Carte choixCarte(Hero hero) {
+        //Création Carte 2
         // Étape 1
         ArrayList<Case> casesEtape1 = new ArrayList<>();
         casesEtape1.add(new Case(hero));
@@ -110,18 +104,11 @@ public class Main {
         casesEtape2.add(new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3)));
 
         // Étapes complètes
-        ArrayList<ArrayList<Case>> cases = new ArrayList<>();
-        cases.add(creerEtape(10, casesEtape1));
-        cases.add(creerEtape(10, casesEtape2));
+        ArrayList<ArrayList<Case>> cases2 = new ArrayList<>();
+        cases2.add(creerEtape(10, casesEtape1));
+        cases2.add(creerEtape(10, casesEtape2));
 
-        Carte carte = new Carte("Désert des Mirages", "Mission 2", cases.size(), cases);
-
-        System.out.println("0.\n" + carte);
-        validerChoix(2, "Choisissez une carte : ");
-        return carte;
-    }
-
-public static Carte choixCarte(Hero hero) {
+        //Création Carte 3
         // Étape 1
         ArrayList<Case> casesEtape1 = new ArrayList<>();
         casesEtape1.add(new Case(hero));
@@ -140,17 +127,25 @@ public static Carte choixCarte(Hero hero) {
         casesEtape3.add(new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3)));
 
         // Étapes complètes
-        ArrayList<ArrayList<Case>> cases = new ArrayList<>();
-        cases.add(creerEtape(10, casesEtape1));
-        cases.add(creerEtape(10, casesEtape2));
-        cases.add(creerEtape(10, casesEtape3));
+        ArrayList<ArrayList<Case>> cases3 = new ArrayList<>();
+        cases3.add(creerEtape(10, casesEtape1));
+        cases3.add(creerEtape(10, casesEtape2));
+        cases3.add(creerEtape(10, casesEtape3));
 
-        Carte carte = new Carte("Île Perdue", "Mission 3", cases.size(), cases);
+        ArrayList<Carte> cartes = new ArrayList<>();
+        cartes.add(new Carte(("Forêt Enchantée", "Mission 1", cases1.size(), cases1)));
+        cartes.add(new Carte(("Désert des Mirages", "Mission 2", cases2.size(), cases2)));
+        cartes.add(new Carte(("Île Perdue", "Mission 3", cases3.size(), cases3)));
 
-        System.out.println("0.\n" + carte);
-        validerChoix(3, "Choisissez une carte : ");
-        return carte;
+        for (int i = 0; i < cartes.size(); i++) {
+            System.out.println(i + ". " + cartes.get(i));
+        }
+        int choix = validerChoix(cartes.size(), "Choisissez une carte : ");
+        System.out.println("Carte choisie : " + cartes.get(choix));
+        return cartes.get(choix);
+    
     }
+
 
     private static void attaquerEnnemi(Hero hero, ArrayList<Case> casesEtape) {
         ArrayList<Integer> indicesEnnemis = new ArrayList<>();

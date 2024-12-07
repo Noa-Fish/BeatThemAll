@@ -67,70 +67,70 @@ public class Main {
     public static Carte choixCarte(Hero hero) {
         //Création Carte 1
         // Étape 1
-        ArrayList<Case> casesEtape1 = new ArrayList<>();
-        casesEtape1.add(new Case(hero));
-        casesEtape1.add(new Case(new Ennemi("Brigand", 120, 60, 40, 5, 1)));
-        casesEtape1.add(new Case(new Ennemi("Brigand", 120, 60, 40, 9, 1)));
+        ArrayList<Case> casesEtape11 = new ArrayList<>();
+        casesEtape11.add(new Case(hero));
+        casesEtape11.add(new Case(new Ennemi("Brigand", 120, 60, 40, 5, 1)));
+        casesEtape11.add(new Case(new Ennemi("Brigand", 120, 60, 40, 9, 1)));
 
         // Étape 2
-        ArrayList<Case> casesEtape2 = new ArrayList<>();
-        casesEtape2.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 3, 1)));
-        casesEtape2.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 7, 1)));
-        casesEtape2.add(new Case(new Ennemi("Brigand", 120, 60, 40, 9, 1)));
+        ArrayList<Case> casesEtape12 = new ArrayList<>();
+        casesEtape12.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 3, 1)));
+        casesEtape12.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 7, 1)));
+        casesEtape12.add(new Case(new Ennemi("Brigand", 120, 60, 40, 9, 1)));
 
         // Étape 3
-        ArrayList<Case> casesEtape3 = new ArrayList<>();
-        casesEtape3.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 4, 1)));
-        casesEtape3.add(new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3)));
+        ArrayList<Case> casesEtape13 = new ArrayList<>();
+        casesEtape13.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 4, 1)));
+        casesEtape13.add(new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3)));
 
         // Étapes complètes
         ArrayList<ArrayList<Case>> cases1 = new ArrayList<>();
-        cases1.add(creerEtape(10, casesEtape1));
-        cases1.add(creerEtape(10, casesEtape2));
-        cases1.add(creerEtape(10, casesEtape3));
+        cases1.add(creerEtape(10, casesEtape11));
+        cases1.add(creerEtape(10, casesEtape12));
+        cases1.add(creerEtape(10, casesEtape13));
 
         //Création Carte 2
         // Étape 1
-        ArrayList<Case> casesEtape1 = new ArrayList<>();
-        casesEtape1.add(new Case(hero));
-        casesEtape1.add(new Case(new Ennemi("Brigand", 120, 60, 40, 2, 1)));
-        casesEtape1.add(new Case(new Ennemi("Brigand", 120, 60, 40, 4, 1)));
-        casesEtape1.add(new Case(new Ennemi("Brigand", 120, 60, 140, 8, 1)));
+        ArrayList<Case> casesEtape21 = new ArrayList<>();
+        casesEtape21.add(new Case(hero));
+        casesEtape21.add(new Case(new Ennemi("Brigand", 120, 60, 40, 2, 1)));
+        casesEtape21.add(new Case(new Ennemi("Brigand", 120, 60, 40, 4, 1)));
+        casesEtape21.add(new Case(new Ennemi("Brigand", 120, 60, 140, 8, 1)));
 
         // Étape 2
-        ArrayList<Case> casesEtape2 = new ArrayList<>();
-        casesEtape2.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 3, 1)));
-        casesEtape2.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 7, 1)));
-        casesEtape2.add(new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3)));
+        ArrayList<Case> casesEtape22 = new ArrayList<>();
+        casesEtape22.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 3, 1)));
+        casesEtape22.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 7, 1)));
+        casesEtape22.add(new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3)));
 
         // Étapes complètes
         ArrayList<ArrayList<Case>> cases2 = new ArrayList<>();
-        cases2.add(creerEtape(10, casesEtape1));
-        cases2.add(creerEtape(10, casesEtape2));
+        cases2.add(creerEtape(10, casesEtape21));
+        cases2.add(creerEtape(10, casesEtape22));
 
         //Création Carte 3
         // Étape 1
-        ArrayList<Case> casesEtape1 = new ArrayList<>();
-        casesEtape1.add(new Case(hero));
-        casesEtape1.add(new Case(new Ennemi("Brigand", 120, 60, 40, 5, 1)));
-        casesEtape1.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 9, 1)));
+        ArrayList<Case> casesEtape31 = new ArrayList<>();
+        casesEtape31.add(new Case(hero));
+        casesEtape31.add(new Case(new Ennemi("Brigand", 120, 60, 40, 5, 1)));
+        casesEtape31.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 9, 1)));
 
         // Étape 2
-        ArrayList<Case> casesEtape2 = new ArrayList<>();
-        casesEtape2.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 3, 1)));
-        casesEtape2.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 7, 1)));
-        casesEtape2.add(new Case(new Ennemi("Brigand", 120, 60, 40, 9, 1)));
+        ArrayList<Case> casesEtape32 = new ArrayList<>();
+        casesEtape32.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 3, 1)));
+        casesEtape32.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 7, 1)));
+        casesEtape32.add(new Case(new Ennemi("Brigand", 120, 60, 40, 9, 1)));
 
         // Étape 3
-        ArrayList<Case> casesEtape3 = new ArrayList<>();
-        casesEtape3.add(new Case(new Ennemi("Gangster", 100, 80, 40, 4, 3)));
-        casesEtape3.add(new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3)));
+        ArrayList<Case> casesEtape33 = new ArrayList<>();
+        casesEtape33.add(new Case(new Ennemi("Gangster", 100, 80, 40, 4, 3)));
+        casesEtape33.add(new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3)));
 
         // Étapes complètes
         ArrayList<ArrayList<Case>> cases3 = new ArrayList<>();
-        cases3.add(creerEtape(10, casesEtape1));
-        cases3.add(creerEtape(10, casesEtape2));
-        cases3.add(creerEtape(10, casesEtape3));
+        cases3.add(creerEtape(10, casesEtape31));
+        cases3.add(creerEtape(10, casesEtape32));
+        cases3.add(creerEtape(10, casesEtape33));
 
         ArrayList<Carte> cartes = new ArrayList<>();
         cartes.add(new Carte(("Forêt Enchantée", "Mission 1", cases1.size(), cases1)));

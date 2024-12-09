@@ -1,3 +1,4 @@
+//Nousseïba Tazana & Noa Watel
 package com.beatthemall;
 
 import java.util.ArrayList;
@@ -128,7 +129,7 @@ public class Main {
         Carte carte = choixCarte(hero);
 
         int etape = 0;
-        while (etape < carte.getCases().size()) {
+        while (etape < carte.getCases().size() && hero.getPv() > 0) {
             afficherEtape(etape);
             ArrayList<Case> casesEtape = carte.getCases().get(etape);
             carte.getCases().set(etape, creerEtape(casesEtape.size(), casesEtape));
@@ -169,6 +170,10 @@ public class Main {
                 }
             }
         }
-        LOGGER.log(Level.INFO, "GAGNÉ !!!");
+        if (hero.getPv() > 0){
+            LOGGER.log(Level.INFO, "GAGNÉ !!!");
+        }else{
+            LOGGER.log(Level.INFO, "PERDU !!!");
+        }
     }
 }

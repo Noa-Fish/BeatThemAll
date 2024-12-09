@@ -1,11 +1,16 @@
 package com.beatthemall;
 
+import java.util.logging.Logger;
+
 /**
  * Classe représentant un personnage générique dans le jeu.
  * Un personnage possède des caractéristiques telles que des points de vie, une force, une défense, 
  * une position (coordonnée) et une distance d'attaque.
  */
 public class Personnage {
+
+    private static final Logger LOGGER = com.beatthemall.utils.LoggerManager.getInstance().getLogger(Main.class.getName());
+
     private String nom;
     private int pv;
     private int force;
@@ -155,12 +160,12 @@ public class Personnage {
 
             if (degats > 0) {
                 cible.setPv(cible.getPv() - degats);
-                System.out.println(this.getNom() + " attaque " + cible.getNom() + " et inflige " + degats + " points de dégâts.");
+                LOGGER.info(this.getNom() + " attaque " + cible.getNom() + " et inflige " + degats + " points de dégâts.");
             } else {
-                System.out.println(this.getNom() + " attaque " + cible.getNom() + ", mais la défense de " + cible.getNom() + " est trop élevée !");
+                LOGGER.info(this.getNom() + " attaque " + cible.getNom() + ", mais la défense de " + cible.getNom() + " est trop élevée !");
             }
         } else {
-            System.out.println(this.getNom() + " ne peut pas attaquer " + cible.getNom() + " : la cible est hors de portée !");
+            LOGGER.info(this.getNom() + " ne peut pas attaquer " + cible.getNom() + " : la cible est hors de portée !");
         }
     }
 

@@ -1,11 +1,14 @@
 package com.beatthemall;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * Représente un héros dans le jeu, qui est un type spécifique de personnage avec des capacités spéciales.
  */
 public class Hero extends Personnage {
+
+    private static final Logger LOGGER = com.beatthemall.utils.LoggerManager.getInstance().getLogger(Main.class.getName());
 
     /** Indique si la capacité spéciale du héros a déjà été utilisée. */
     private boolean capaciteUtilisee = false;
@@ -35,7 +38,7 @@ public class Hero extends Personnage {
             attaqueSpeciale.executer(cases);
             capaciteUtilisee = true;
         } else {
-            System.out.println("Capacité déjà utilisée !");
+            LOGGER.info("Capacité déjà utilisée !");
         }
     }
 
@@ -49,7 +52,7 @@ public class Hero extends Personnage {
         if (casesEtape.get(this.getCoordonnee() + 1).getPersonnage() == null) {
             this.setCoordonnee(this.getCoordonnee() + 1);
         } else {
-            System.out.println("Erreur : impossible d'avancer.");
+            LOGGER.warning("Erreur : impossible d'avancer.");
         }
     }
 

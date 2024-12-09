@@ -1,6 +1,7 @@
 package com.beatthemall;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * Représente une carte avec des étapes composées de cases.
@@ -8,6 +9,9 @@ import java.util.ArrayList;
  * et une matrice de cases représentant les étapes.
  */
 public class Carte {
+
+    private static final Logger LOGGER = com.beatthemall.utils.LoggerManager.getInstance().getLogger(Main.class.getName());
+
     /** Le lieu où se trouve la carte. */
     private String lieu;
 
@@ -207,7 +211,7 @@ public class Carte {
         for (ArrayList<Case> etape : cases) {
             str.append(afficherEtape(etape));
         }
-
+        LOGGER.info("Erreur, veuillez entrer un choix valide.");
         System.out.println(str.toString());
     }
 

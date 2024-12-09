@@ -1,39 +1,46 @@
-//Implémentation des héros, ennemis et cartes
-// Nousseïba Tazani et Noa Watel
 package com.beatthemall;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main {
 
+    private static final Logger LOGGER = com.beatthemall.utils.LoggerManager.getInstance().getLogger(Main.class.getName());
+
     public static void afficherTitre() {
-        System.out.println("  ____             _     _____ _                         _    _ _ \n" + " | __ )  ___  __ _| |_  |_   _| |__   ___ _ __ ___      / \\  | | | \n" + " |  _ \\ / _ \\/ _` | __|   | | | '_ \\ / _ \\ '_ ` _ \\    / _ \\ | | | \n" + " | |_) |  __/ (_| | |_    | | | | | |  __/ | | | | |  / ___ \\| | | \n" + " |____/ \\___|\\__,_|\\__|   |_| |_| |_|\\___|_| |_| |_| /_/   \\_\\_|_| \n");
+        LOGGER.log(Level.INFO, """
+                ____             _     _____ _                         _    _ _ 
+               | __ )  ___  __ _| |_  |_   _| |__   ___ _ __ ___      / \\  | | | 
+               |  _ \\ / _ \\/ _` | __|   | | | '_ \\ / _ \\ '_ ` _ \\    / _ \\ | | | 
+               | |_) |  __/ (_| | |_    | | | | | |  __/ | | | | |  / ___ \\| | | 
+               |____/ \\___|\\__,_|\\__|   |_| |_| |_|\\___|_| |_| |_| /_/   \\_\\_|_|
+               """);
     }
 
     public static void afficherEtape(int etape) {
-        System.out.println("       --------------------- Etape "+etape+" -----------------------");
+        LOGGER.log(Level.INFO, String.format("--------------------- Etape %d -----------------------", etape));
     }
 
-    // Méthode générique pour valider les choix de l'utilisateur
     public static int validerChoix(int maxChoix, String message) {
         Scanner scanner = new Scanner(System.in);
         int choix;
         while (true) {
-            System.out.print(message);
+            LOGGER.log(Level.INFO, message);
             if (scanner.hasNextInt()) {
                 choix = scanner.nextInt();
                 if (choix >= 0 && choix < maxChoix) {
                     return choix;
                 }
             }
-            System.out.println("Erreur, veuillez entrer un choix valide.");
-            scanner.nextLine(); // Consomme l'entrée invalide
+            LOGGER.log(Level.WARNING, "Erreur, veuillez entrer un choix valide.");
+            scanner.nextLine();
         }
     }
 
-    // Créer une étape à partir de la liste de cases
     public static ArrayList<Case> creerEtape(int taille, ArrayList<Case> cases) {
         ArrayList<Case> etape = new ArrayList<>();
         for (int i = 0; i < taille; i++) etape.add(new Case());
@@ -48,100 +55,44 @@ public class Main {
         return etape;
     }
 
-    // Choix du héros
     public static Hero choixHero() {
         ArrayList<Hero> heros = new ArrayList<>();
-        heros.add(new Hero("Archer Sylvestre", 120, 60, 60, 0, 1, new Matrix()));
+        heros.add(new Hero("Archer Sylvestre", 120, 60, 60, 0, 1, new OneShot()));
         heros.add(new Hero("Mage des Éléments", 180, 40, 80, 0, 1, new Soin()));
         heros.add(new Hero("Paladin Sacré", 100, 100, 20, 0, 1, new OneShot()));
 
+        LOGGER.log(Level.INFO, "Liste des héros disponibles :");
         for (int i = 0; i < heros.size(); i++) {
-            System.out.println(i + ". " + heros.get(i));
+            LOGGER.log(Level.INFO, String.format(".%d : %s", i, heros.get(i)));
         }
+
         int choix = validerChoix(heros.size(), "Choisissez un héros : ");
-        System.out.println("Héros choisi : " + heros.get(choix));
+        LOGGER.log(Level.INFO, String.format("Héros choisi : %s", heros.get(choix)));
         return heros.get(choix);
     }
 
-    // Choix de la carte
     public static Carte choixCarte(Hero hero) {
-        //Création Carte 1
-        // Étape 1
-        ArrayList<Case> casesEtape11 = new ArrayList<>();
-        casesEtape11.add(new Case(hero));
-        casesEtape11.add(new Case(new Ennemi("Brigand", 120, 60, 40, 5, 1)));
-        casesEtape11.add(new Case(new Ennemi("Brigand", 120, 60, 40, 9, 1)));
-
-        // Étape 2
-        ArrayList<Case> casesEtape12 = new ArrayList<>();
-        casesEtape12.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 3, 1)));
-        casesEtape12.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 7, 1)));
-        casesEtape12.add(new Case(new Ennemi("Brigand", 120, 60, 40, 9, 1)));
-
-        // Étape 3
-        ArrayList<Case> casesEtape13 = new ArrayList<>();
-        casesEtape13.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 4, 1)));
-        casesEtape13.add(new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3)));
-
-        // Étapes complètes
+        // Création des cartes
         ArrayList<ArrayList<Case>> cases1 = new ArrayList<>();
-        cases1.add(creerEtape(10, casesEtape11));
-        cases1.add(creerEtape(10, casesEtape12));
-        cases1.add(creerEtape(10, casesEtape13));
+        cases1.add(creerEtape(10, new ArrayList<>(List.of(new Case(hero), new Case(new Ennemi("Brigand", 120, 60, 40, 5, 1)), new Case(new Ennemi("Brigand", 120, 60, 40, 9, 1))))));
+        cases1.add(creerEtape(10, new ArrayList<>(List.of(new Case(new Ennemi("Catcheur", 250, 80, 60, 3, 1)), new Case(new Ennemi("Catcheur", 250, 80, 60, 7, 1)), new Case(new Ennemi("Brigand", 120, 60, 40, 9, 1))))));
+        cases1.add(creerEtape(10, new ArrayList<>(List.of(new Case(new Ennemi("Catcheur", 250, 80, 60, 4, 1)), new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3))))));
 
-        //Création Carte 2
-        // Étape 1
-        ArrayList<Case> casesEtape21 = new ArrayList<>();
-        casesEtape21.add(new Case(hero));
-        casesEtape21.add(new Case(new Ennemi("Brigand", 120, 60, 40, 2, 1)));
-        casesEtape21.add(new Case(new Ennemi("Brigand", 120, 60, 40, 4, 1)));
-        casesEtape21.add(new Case(new Ennemi("Brigand", 120, 60, 140, 8, 1)));
-
-        // Étape 2
-        ArrayList<Case> casesEtape22 = new ArrayList<>();
-        casesEtape22.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 3, 1)));
-        casesEtape22.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 7, 1)));
-        casesEtape22.add(new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3)));
-
-        // Étapes complètes
         ArrayList<ArrayList<Case>> cases2 = new ArrayList<>();
-        cases2.add(creerEtape(10, casesEtape21));
-        cases2.add(creerEtape(10, casesEtape22));
-
-        //Création Carte 3
-        // Étape 1
-        ArrayList<Case> casesEtape31 = new ArrayList<>();
-        casesEtape31.add(new Case(hero));
-        casesEtape31.add(new Case(new Ennemi("Brigand", 120, 60, 40, 5, 1)));
-        casesEtape31.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 9, 1)));
-
-        // Étape 2
-        ArrayList<Case> casesEtape32 = new ArrayList<>();
-        casesEtape32.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 3, 1)));
-        casesEtape32.add(new Case(new Ennemi("Catcheur", 250, 80, 60, 7, 1)));
-        casesEtape32.add(new Case(new Ennemi("Brigand", 120, 60, 40, 9, 1)));
-
-        // Étape 3
-        ArrayList<Case> casesEtape33 = new ArrayList<>();
-        casesEtape33.add(new Case(new Ennemi("Gangster", 100, 80, 40, 4, 3)));
-        casesEtape33.add(new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3)));
-
-        // Étapes complètes
-        ArrayList<ArrayList<Case>> cases3 = new ArrayList<>();
-        cases3.add(creerEtape(10, casesEtape31));
-        cases3.add(creerEtape(10, casesEtape32));
-        cases3.add(creerEtape(10, casesEtape33));
+        cases2.add(creerEtape(10, new ArrayList<>(List.of(new Case(hero), new Case(new Ennemi("Brigand", 120, 60, 40, 2, 1)), new Case(new Ennemi("Brigand", 120, 60, 140, 8, 1))))));
+        cases2.add(creerEtape(10, new ArrayList<>(List.of(new Case(new Ennemi("Catcheur", 250, 80, 60, 3, 1)), new Case(new Ennemi("Gangster", 100, 80, 40, 9, 3))))));
 
         ArrayList<Carte> cartes = new ArrayList<>();
-        cartes.add(new Carte(("Forêt Enchantée", "Mission 1", cases1.size(), cases1)));
-        cartes.add(new Carte(("Désert des Mirages", "Mission 2", cases2.size(), cases2)));
-        cartes.add(new Carte(("Île Perdue", "Mission 3", cases3.size(), cases3)));
+        cartes.add(new Carte("Forêt Enchantée", "Mission 1", cases1.size(), cases1));
+        cartes.add(new Carte("Désert des Mirages", "Mission 2", cases2.size(), cases2));
 
+        LOGGER.log(Level.INFO, "Liste des cartes disponibles :");
         for (int i = 0; i < cartes.size(); i++) {
-            System.out.println(i + ". " + cartes.get(i));
+            LOGGER.log(Level.INFO, String.format("%d.\n%s", i, cartes.get(i)));
         }
+
         int choix = validerChoix(cartes.size(), "Choisissez une carte : ");
-        System.out.println("Carte choisie : " + cartes.get(choix));
+        LOGGER.log(Level.INFO, String.format("Carte choisie :\n%s", cartes.get(choix)));
         return cartes.get(choix);
     
     }
@@ -149,19 +100,19 @@ public class Main {
 
     private static void attaquerEnnemi(Hero hero, ArrayList<Case> casesEtape) {
         ArrayList<Integer> indicesEnnemis = new ArrayList<>();
-        System.out.println("Choisissez un ennemi à attaquer :");
+        LOGGER.log(Level.INFO, "Choisissez un ennemi à attaquer :");
 
         // Récupérer et afficher les ennemis
         for (int i = 0; i < casesEtape.size(); i++) {
             if (casesEtape.get(i).getPersonnage() instanceof Ennemi) {
-                System.out.println(indicesEnnemis.size() + ". " + casesEtape.get(i).getPersonnage());
+                LOGGER.log(Level.INFO, String.format("%d. %s", indicesEnnemis.size(), casesEtape.get(i).getPersonnage()));
                 indicesEnnemis.add(i);
             }
         }
 
         // Gérer le cas où il n'y a pas d'ennemis
         if (indicesEnnemis.isEmpty()) {
-            System.out.println("Aucun ennemi à attaquer !");
+            LOGGER.log(Level.INFO, "Aucun ennemi à attaquer !");
             return;
         }
 
@@ -181,25 +132,10 @@ public class Main {
             afficherEtape(etape);
             ArrayList<Case> casesEtape = carte.getCases().get(etape);
             carte.getCases().set(etape, creerEtape(casesEtape.size(), casesEtape));
-            System.out.println(carte.afficherEtape(casesEtape));
+            LOGGER.log(Level.INFO, carte.afficherEtape(casesEtape));
 
-            System.out.println("Choisissez une action :\n1. Avancer\n2. Reculer\n3. Attaquer\n4. Attaque Spéciale");
+            LOGGER.log(Level.INFO, "Choisissez une action :\n1. Avancer\n2. Reculer\n3. Attaquer\n4. Attaque Spéciale");
             int choix = validerChoix(5, "Action : ");
-
-            switch (choix) {
-                case 1 -> hero.avance(casesEtape);
-                case 2 -> hero.recule();
-                case 3 -> {
-                    Random random = new Random();
-                    int attaques = random.nextInt(5) + 1;
-                    System.out.println("Le héros attaque " + attaques + " fois !");
-                    for (int i = 0; i < attaques; i++) {
-                        attaquerEnnemi(hero, casesEtape);
-                    }
-                }
-                case 4 -> hero.utiliserCapaciteSpeciale(casesEtape);
-                default -> System.out.println("Choix invalide.");
-            }
 
             // Phase d'attaque des ennemis
             for (Case c : casesEtape) {
@@ -207,6 +143,22 @@ public class Main {
                     ennemi.attaquer(hero);
                 }
             }
+
+            switch (choix) {
+                case 1 -> hero.avance(casesEtape);
+                case 2 -> hero.recule();
+                case 3 -> {
+                    Random random = new Random();
+                    int attaques = random.nextInt(5) + 1;
+                    LOGGER.log(Level.INFO, "Le héros attaque " + attaques + " fois !");
+                    for (int i = 0; i < attaques; i++) {
+                        attaquerEnnemi(hero, casesEtape);
+                    }
+                }
+                case 4 -> hero.utiliserCapaciteSpeciale(casesEtape);
+                default -> LOGGER.log(Level.WARNING, "Choix invalide.");
+            }
+
             carte.getCases().set(etape, creerEtape(casesEtape.size(), casesEtape));
 
             if (carte.isAllEnnemiDeadByEtape(casesEtape)) {
@@ -217,6 +169,6 @@ public class Main {
                 }
             }
         }
-        System.out.println("GAGNÉ !!!");
+        LOGGER.log(Level.INFO, "GAGNÉ !!!");
     }
 }

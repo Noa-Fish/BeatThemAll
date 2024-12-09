@@ -124,6 +124,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        LOGGER.log(Level.INFO, "Nousseïba Tazana & Noa Watel");
         afficherTitre();
         Hero hero = choixHero();
         Carte carte = choixCarte(hero);
